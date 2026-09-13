@@ -1,0 +1,7 @@
+{"added": "2026-09-01", "intent": "alarm.set", "phrase": "set an alarm for seven", "source": "session-114/utt-3", "slots": {"hour": "7"}, "version": "1"}
+{"added": "2026-09-01", "intent": "alarm.cancel", "phrase": "cancel the alarm", "source": "session-114/utt-9", "version": "1"}
+{"added": "2026-09-02", "intent": "timer.start", "phrase": "start a timer for five minutes", "source": "session-118/utt-2", "slots": {"minutes": "5"}, "version": "1"}
+{"added": "2026-09-02", "intent": "music.play", "phrase": "play some music", "source": "session-118/utt-7", "version": "1"}
+{"added": "2026-09-03", "intent": "music.stop", "phrase": "stop the music", "source": "session-121/utt-1", "version": "1"}
+{"added": "2026-09-03", "intent": "weather.today", "phrase": "what is the weather today", "source": "session-121/utt-5", "version": "1"}
+{"added": "2026-09-05", "intent": "call.contact", "phrase": "call mum", "source": "ticket-402", "slots": {"contact": "mum"}, "version": "2"}
