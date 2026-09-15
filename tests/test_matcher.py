@@ -2,7 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
-from golden_matcher import Entry, TableError, load_table, match, normalize, table_from_entries
+from golden_matcher import Entry, TableError, load_table, match, normalize, table_from_entries, tokens
 from golden_matcher.__main__ import main
 
 TABLE = Path(__file__).resolve().parent.parent / "golden.jsonl"
@@ -26,6 +26,17 @@ class NormalizeTest(unittest.TestCase):
 
     def test_normalisation_is_stable(self):
         self.assertEqual(normalize("Call Mum."), normalize("call mum"))
+
+
+class TokensTest(unittest.TestCase):
+    def test_splits_the_normalised_phrase_into_words(self):
+        self.assertEqual(tokens("Stop, the  MUSIC!"), ["stop", "the", "music"])
+
+    def test_empty_phrase_gives_no_tokens(self):
+        self.assertEqual(tokens("  ,. !"), [])
+
+    def test_matches_normalize_word_for_word(self):
+        self.assertEqual(tokens("set an alarm for seven"), normalize("set an alarm for seven").split())
 
 
 class TableTest(unittest.TestCase):
