@@ -66,6 +66,21 @@ class TableTest(unittest.TestCase):
                 ]
             )
 
+    def test_blank_and_comment_lines_are_skipped(self):
+        good = json.dumps({"phrase": "hi", "intent": "greet", "source": "t-1", "added": "2026-09-01"})
+        text = f"\n# a comment\n{good}\n   \n"
+        path = Path(self.enterContext(__import__("tempfile").TemporaryDirectory())) / "sparse.jsonl"
+        path.write_text(text, encoding="utf-8")
+        table = load_table(path)
+        self.assertEqual(len(table), 1)
+
+    def test_a_table_with_no_real_lines_is_refused(self):
+        text = "\n# only a comment\n   \n"
+        path = Path(self.enterContext(__import__("tempfile").TemporaryDirectory())) / "empty.jsonl"
+        path.write_text(text, encoding="utf-8")
+        with self.assertRaisesRegex(TableError, "empty"):
+            load_table(path)
+
 
 class MatchTest(unittest.TestCase):
     def setUp(self):
