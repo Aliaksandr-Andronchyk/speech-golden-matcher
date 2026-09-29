@@ -27,6 +27,9 @@ class NormalizeTest(unittest.TestCase):
     def test_normalisation_is_stable(self):
         self.assertEqual(normalize("Call Mum."), normalize("call mum"))
 
+    def test_hyphenated_word_ending_in_a_number_word_is_not_turned_into_a_digit(self):
+        self.assertEqual(normalize("set alarm for twenty-one minutes"), "set alarm for twenty one minutes")
+
 
 class TokensTest(unittest.TestCase):
     def test_splits_the_normalised_phrase_into_words(self):
