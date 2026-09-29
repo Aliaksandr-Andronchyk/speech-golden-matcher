@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 import unicodedata
 
-NORMALIZER_VERSION = "1.1.0"
+NORMALIZER_VERSION = "1.1.1"
 
 _PUNCTUATION = re.compile(r"[^\w\s]", flags=re.UNICODE)
 _SPACES = re.compile(r"\s+", flags=re.UNICODE)
@@ -58,8 +58,15 @@ def normalize(text: str) -> str:
     folded = unicodedata.normalize("NFKC", text).casefold()
     folded = folded.replace("’", "'").replace("`", "'")
     folded = _CONTRACTION_RE.sub(lambda found: _CONTRACTIONS[found.group(0)], folded)
+    # Spoken-digit words only count as digits when they were a whole word before
+    # punctuation was stripped: "twenty-one" must not lose its "one" to "1".
+    whole_words = {word for word in _SPACES.split(folded) if word}
     folded = _PUNCTUATION.sub(" ", folded)
-    words = [_NUMBERS.get(word, word) for word in _SPACES.split(folded) if word]
+    words = [
+        _NUMBERS[word] if word in whole_words and word in _NUMBERS else word
+        for word in _SPACES.split(folded)
+        if word
+    ]
     kept = [word for word in words if word not in _FILLERS]
     # A phrase of nothing but fillers keeps them: an empty key matches everything.
     return " ".join(kept or words)

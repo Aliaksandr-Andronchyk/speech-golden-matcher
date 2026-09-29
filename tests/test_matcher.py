@@ -51,7 +51,7 @@ class TableTest(unittest.TestCase):
     def test_provenance_names_the_table_and_the_rules(self):
         stamp = load_table(TABLE).provenance()
         self.assertEqual(stamp["table_entries"], "7")
-        self.assertEqual(stamp["normalizer_version"], "1.1.0")
+        self.assertEqual(stamp["normalizer_version"], "1.1.1")
 
     def test_a_line_without_source_is_refused(self):
         bad = json.dumps({"phrase": "hi", "intent": "greet", "added": "2026-09-01"})
